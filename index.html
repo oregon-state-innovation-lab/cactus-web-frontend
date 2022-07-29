@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" type="text/css" href="styles.css"> 
+        <script src="https://unpkg.com/split.js/dist/split.min.js"></script>
+    </head>
+
+    <body>
+        <div class="content">
+            <div class="split a">Project Browser</div>
+            <div class="split b">Form</div>
+            <div class="split c">Search Results</div>
+        </div>
+        
+        <script>
+            Split(['.a', '.b', '.c'], {
+                gutterSize: 10,
+                sizes: [20,40,40]
+            });
+        </script>
+    </body>
+</html>
