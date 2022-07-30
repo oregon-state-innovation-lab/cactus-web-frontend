@@ -4,19 +4,76 @@
         <meta charset="utf-8">
         <link rel="stylesheet" type="text/css" href="styles.css"> 
         <script src="https://unpkg.com/split.js/dist/split.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script>
     </head>
 
     <body>
         <div class="content">
-            <div class="split a">Project Browser</div>
+            <div class="split a">
+                Project Browser
+
+                <div id="projects">
+                    <!-- The list here gets filled in dynamically by the results fetched from the server -->
+                </div>
+            </div>
             <div class="split b">Form</div>
             <div class="split c">Search Results</div>
         </div>
-        
         <script>
             Split(['.a', '.b', '.c'], {
                 gutterSize: 10,
                 sizes: [20,40,40]
+            });
+        </script>
+        
+        <!-- This JavaScript fetches a list of projects and forms from the server -->
+        <!--      and then dynamically populates the `projects` DOM element.      -->
+        <script>
+            let url = "http://localhost:3000/projects";
+
+            // Fetch a list of projects and forms from the server
+            $.getJSON(url, function(json) {
+                var items = [];
+
+                // Parse each project
+                let projects = json["projects"];
+                $.each( projects, function(key, value) {
+                    let project = value;
+                    let project_name = project["name"];
+                    let project_forms = project["forms"];
+
+                    // Parse each project's form
+                    var form_items = [];
+                    $.each( project_forms, function(key, value) {
+                        let form = value;
+                        let form_name = form["name"];
+                       
+                        // Each form: construct an array of html li elements
+                        let form_html = `
+                            <li>${form_name}</li>
+                        `
+                        form_items.push(form_html);
+                    });
+
+                    // All the forms: construct the html (by concatenating the array of li elements together)
+                    let all_forms_in_this_project_html = form_items.join("");
+
+                    // Each project: construct an array of html li elememtns
+                    let project_html = `
+                        <li>
+                            ${project_name}
+                            <ul>
+                                ${all_forms_in_this_project_html}
+                            </ul>
+                        </li>
+                    `;
+
+                    items.push(project_html);
+                });
+
+                // All the projects: construct the html (by concatenating the array of li elements together)
+                let html = "<ul>" + items.join("") + "</ul>"
+                $('#projects').html(html)
             });
         </script>
     </body>
