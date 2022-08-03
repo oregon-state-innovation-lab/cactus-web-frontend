@@ -5,6 +5,7 @@
         <link rel="stylesheet" type="text/css" href="styles.css"> 
         <script src="https://unpkg.com/split.js/dist/split.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script>
+        <script src="services.js"></script>
     </head>
 
     <body>
@@ -29,52 +30,7 @@
         <!-- This JavaScript fetches a list of projects and forms from the server -->
         <!--      and then dynamically populates the `projects` DOM element.      -->
         <script>
-            let url = "http://localhost:3000/projects";
-
-            // Fetch a list of projects and forms from the server
-            $.getJSON(url, function(json) {
-                var items = [];
-
-                // Parse each project
-                let projects = json["projects"];
-                $.each( projects, function(key, value) {
-                    let project = value;
-                    let project_name = project["name"];
-                    let project_forms = project["forms"];
-
-                    // Parse each project's form
-                    var form_items = [];
-                    $.each( project_forms, function(key, value) {
-                        let form = value;
-                        let form_name = form["name"];
-                       
-                        // Each form: construct an array of html li elements
-                        let form_html = `
-                            <li>${form_name}</li>
-                        `
-                        form_items.push(form_html);
-                    });
-
-                    // All the forms: construct the html (by concatenating the array of li elements together)
-                    let all_forms_in_this_project_html = form_items.join("");
-
-                    // Each project: construct an array of html li elememtns
-                    let project_html = `
-                        <li>
-                            ${project_name}
-                            <ul>
-                                ${all_forms_in_this_project_html}
-                            </ul>
-                        </li>
-                    `;
-
-                    items.push(project_html);
-                });
-
-                // All the projects: construct the html (by concatenating the array of li elements together)
-                let html = "<ul>" + items.join("") + "</ul>"
-                $('#projects').html(html)
-            });
+            getProjects('#projects');
         </script>
     </body>
 </html>
