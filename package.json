@@ -1,0 +1,26 @@
+{
+  "name": "cactus-web-frontend",
+  "version": "1.0.0",
+  "description": "The web frontend for Project Vova",
+  "main": "services.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/HiWARPs/cactus-web-frontend.git"
+  },
+  "author": "HiWARPs | Project Kaktus",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/HiWARPs/cactus-web-frontend/issues"
+  },
+  "homepage": "https://github.com/HiWARPs/cactus-web-frontend#readme",
+  "devDependencies": {
+    "karma": "^6.4.0",
+    "karma-chrome-launcher": "^3.1.1",
+    "karma-coverage": "^2.2.0",
+    "karma-qunit": "^4.1.2",
+    "qunit": "^2.19.1"
+  }
+}
