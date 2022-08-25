@@ -1,5 +1,66 @@
 const baseUrl = "http://localhost:3000"
 
+function getForm(form_id) {
+    let url = baseUrl + "/form/" + form_id
+
+    $.getJSON(url, createForm)
+
+    function createForm(json) {
+        const form = json.form
+        const form_name = form.name
+        const form_description = form.description
+        const form_y_column_names = form["y_column_names"]
+        const form_x_column_names = form["x_column_names"]
+        const form_references = form.references
+
+        // const converter = new showdown.Converter()
+        // const text = "# hello, markdown!"
+        // const html = converter.makeHtml(form_references)
+        form_html =`
+            <h2 class='form-name'>${form_name}</h2>
+            <p class="form-descriprion my-4">${form_description}</p>
+            <div class="my-4">
+                ${createYColumnsList(form_y_column_names)}
+            </div>
+            <button class="btn btn-primary" type="submit">Gimme</button>
+        `
+        $('#form').html(form_html)
+
+        changeButtonStyle()
+    }
+}
+
+function createYColumnsList(form_y_column_names) {
+    let html = `
+        <p>Which of your Y columnes would you like?</p>
+    `
+    for (i = 0; i < form_y_column_names.length; i++) {
+        let button = `
+        <label class="btn btn-outline-light">
+            <span class="ms-3">
+                ${form_y_column_names[i]}
+                <input class="form-check-input ms-5" type="checkbox"></input>
+            </span>
+        </label>
+        `
+        html += button
+    }
+
+    return html
+}
+
+
+function changeButtonStyle() {
+    $(".form-check-input").on("click", function () {
+        if ($(this).is(":checked")) {
+            this.closest("label").style.background = "#e9ecef"
+        } else {
+            this.closest("label").style.background = ""
+        }
+    })
+}
+
+
 function getProjects(elementID) {
     let url = baseUrl + "/projects"
 
@@ -34,13 +95,16 @@ function createStaticList(projects_dictionary) {
         for (const [key, value] of Object.entries(project_forms)) {
             let form = value
             let form_name = form["name"]
+            let form_id = form["id"]
 
             // Each form: construct an array of html li elements
             let form_html = `
+            <a onclick="getForm(${form_id})">
                 <li class='dropdown-item'>&nbsp&nbsp&nbsp&nbsp
                     <span class='material-symbols-outlined'>description</span>
                     ${form_name}
                 </li>
+            </a>
             `
             form_items.push(form_html)
         }

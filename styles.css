@@ -17,6 +17,7 @@ body {
   width:100%;
   height:100%;
   padding: 30px;
+  overflow: hidden;
 }
 
 .a {
@@ -24,6 +25,10 @@ body {
     color: white;
     padding: 0px;
     overflow: hidden;
+}
+
+.form-name {
+  text-align: center;
 }
 
 .gutter {
@@ -94,3 +99,14 @@ li.dropdown-item.active {
 #a-title {
   margin: 30px;
 }
+
+a:link {
+  text-decoration: none;
+}
+
+.btn.btn-outline-light {
+  color: black;
+  margin: 5px;
+  border-color: #adb5bd;
+}
+
