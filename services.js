@@ -13,16 +13,21 @@ function getForm(form_id) {
         const form_x_column_names = form["x_column_names"]
         const form_references = form.references
 
-        // const converter = new showdown.Converter()
-        // const text = "# hello, markdown!"
-        // const html = converter.makeHtml(form_references)
         form_html =`
-            <h2 class='form-name'>${form_name}</h2>
+            <h2 class="element-center">${form_name}</h2>
             <p class="form-descriprion my-4">${form_description}</p>
             <div class="my-4">
                 ${createYColumnsList(form_y_column_names)}
             </div>
-            <button class="btn btn-primary" type="submit">Gimme</button>
+            <div class="my-4">
+                ${createXColumnsList(form_x_column_names)}
+            </div>
+            <div class="my-4">
+                ${form_references}
+            </div>
+            <div class="form-row text-center my-4">
+                <button class="btn btn-primary element-center" type="submit">Gimme</button>
+            </div>
         `
         $('#form').html(form_html)
 
@@ -31,24 +36,72 @@ function getForm(form_id) {
 }
 
 function createYColumnsList(form_y_column_names) {
-    let html = `
-        <p>Which of your Y columnes would you like?</p>
-    `
-    for (i = 0; i < form_y_column_names.length; i++) {
-        let button = `
-        <label class="btn btn-outline-light">
-            <span class="ms-3">
-                ${form_y_column_names[i]}
-                <input class="form-check-input ms-5" type="checkbox"></input>
-            </span>
-        </label>
+    if (form_y_column_names.length > 1) {
+        html = `<p>Choose the quantities to compute:</p>`
+        for (i = 0; i < form_y_column_names.length; i++) {
+            let button = `
+            <label class="btn btn-outline-light">
+                <span class="ms-3">
+                    ${form_y_column_names[i]}
+                    <input class="form-check-input ms-5" type="checkbox"></input>
+                </span>
+            </label>
+            `
+            html += button
+        }
+    } else {
+        html = `
+        <p>The quantity to compute is:</p>
+        <div class="btn btn-light">
+            ${form_y_column_names[0]}
+        </div>
         `
-        html += button
     }
 
     return html
 }
 
+function createXColumnsList(form_x_column_names) {
+    let html = `
+        <p>Choose your independent variable and values for the fixed variables:</p>
+        <div class="my-3">
+            <div class="input-group">
+                <label class="form-check-label btn btn-outline-light" id="XButton">
+                    <span class="ms-3">
+                        ${form_x_column_names[0]}
+                        <input class="form-check-input" type="radio" name="exampleRadios">
+                    </span>
+                </label>
+                <input type="text" placeholder="Min" class="form-control">
+                <input type="text" placeholder="Max" class="form-control">
+                <input type="text" placeholder="Increment" class="form-control">
+            </div>
+        </div>
+        <div>
+            ${fixedXColumnsList(form_x_column_names)}
+        </div>
+    `
+    function fixedXColumnsList(XList) {
+        var html = ``
+        for (i = 1; i < XList.length; i++) {
+            let button = `
+            <div class="input-group my-2">
+                <label class="form-check-label btn btn-outline-light" id="XButton">
+                    <span class="ms-3">
+                        ${XList[i]}
+                        <input class="form-check-input" type="radio" name="exampleRadios">
+                    </span>
+                </label>
+                <input type="text" placeholder="Value" class="form-control">
+            </div>
+            `
+            html += button
+        }
+        return html
+    }
+
+    return html
+}
 
 function changeButtonStyle() {
     $(".form-check-input").on("click", function () {

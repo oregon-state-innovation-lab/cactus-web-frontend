@@ -27,7 +27,7 @@ body {
     overflow: hidden;
 }
 
-.form-name {
+.element-center {
   text-align: center;
 }
 
@@ -110,3 +110,6 @@ a:link {
   border-color: #adb5bd;
 }
 
+#XButton {
+  width: 150px;
+}
